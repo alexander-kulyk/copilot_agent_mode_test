@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/copilot_agent_mode_test/static/js/main.d29e70d8.js",
+    "main.js": "/copilot_agent_mode_test/static/js/main.65a61a03.js",
     "index.html": "/copilot_agent_mode_test/index.html",
-    "main.d29e70d8.js.map": "/copilot_agent_mode_test/static/js/main.d29e70d8.js.map"
+    "main.65a61a03.js.map": "/copilot_agent_mode_test/static/js/main.65a61a03.js.map"
   },
   "entrypoints": [
-    "static/js/main.d29e70d8.js"
+    "static/js/main.65a61a03.js"
   ]
 }

@@ -6,7 +6,7 @@ A modern, full-stack todo application built with React (TypeScript) frontend and
 
 **GitHub Pages Demo**: [https://alexander-kulyk.github.io/copilot_agent_mode_test](https://alexander-kulyk.github.io/copilot_agent_mode_test)
 
-*Note: The demo version uses localStorage for persistence since GitHub Pages can't host the backend.*
+_Note: The demo version uses localStorage for persistence since GitHub Pages can't host the backend._
 
 ## ✨ Features
 
@@ -24,12 +24,14 @@ A modern, full-stack todo application built with React (TypeScript) frontend and
 ## 🏗️ Architecture
 
 ### Frontend (React + TypeScript)
+
 - **React 18** with functional components and hooks
 - **TypeScript** for type safety
 - **Styled Components** for styling
 - **Custom API service** for backend communication
 
 ### Backend (Node.js + Express)
+
 - **Express.js** RESTful API
 - **JSON file storage** for persistence
 - **CORS enabled** for cross-origin requests
@@ -59,6 +61,7 @@ copilot_agent_mode_test/
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
+
 - Node.js (v14 or higher)
 - npm or yarn
 - Git
@@ -66,28 +69,33 @@ copilot_agent_mode_test/
 ### Local Development
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/alexander-kulyk/copilot_agent_mode_test.git
    cd copilot_agent_mode_test
    ```
 
 2. **Install Backend Dependencies**
+
    ```bash
    cd back-end
    npm install
    ```
 
 3. **Install Frontend Dependencies**
+
    ```bash
    cd ../todo-app
    npm install
    ```
 
 4. **Start the Backend Server**
+
    ```bash
    cd ../back-end
    npm start
    ```
+
    Backend will run on http://localhost:5000
 
 5. **Start the Frontend Development Server**
@@ -99,13 +107,13 @@ copilot_agent_mode_test/
 
 ## 🌐 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/todos` | Get all todos |
-| POST | `/todos` | Create a new todo |
-| PUT | `/todos/:id/complete` | Toggle todo completion |
-| DELETE | `/todos/:id` | Delete a todo |
-| PUT | `/todos/:id` | Update todo text (bonus) |
+| Method | Endpoint              | Description              |
+| ------ | --------------------- | ------------------------ |
+| GET    | `/todos`              | Get all todos            |
+| POST   | `/todos`              | Create a new todo        |
+| PUT    | `/todos/:id/complete` | Toggle todo completion   |
+| DELETE | `/todos/:id`          | Delete a todo            |
+| PUT    | `/todos/:id`          | Update todo text (bonus) |
 
 ### Example API Usage
 
@@ -118,20 +126,23 @@ const todos = await response.json();
 const response = await fetch('http://localhost:5000/todos', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ text: 'New todo item' })
+  body: JSON.stringify({ text: 'New todo item' }),
 });
 ```
 
 ## 🚀 Deployment
 
 ### Frontend (GitHub Pages)
+
 The frontend is automatically deployed to GitHub Pages:
+
 ```bash
 cd todo-app
 npm run deploy
 ```
 
 ### Backend Deployment Options
+
 - **Heroku**: For easy Node.js hosting
 - **Railway**: Modern deployment platform
 - **Vercel**: Serverless functions
@@ -140,6 +151,7 @@ npm run deploy
 ## 🧪 Testing
 
 ### Backend Testing
+
 ```bash
 cd back-end
 npm test  # Run test suite
@@ -147,7 +159,9 @@ node test-setup.js  # Verify setup
 ```
 
 ### API Testing
+
 Use the included `api-test.js` for manual API testing:
+
 ```bash
 node api-test.js
 ```
@@ -155,12 +169,14 @@ node api-test.js
 ## 📋 Available Scripts
 
 ### Frontend (`todo-app`)
+
 - `npm start` - Start development server
 - `npm build` - Build for production
 - `npm test` - Run tests
 - `npm run deploy` - Deploy to GitHub Pages
 
 ### Backend (`back-end`)
+
 - `npm start` - Start server
 - `npm run dev` - Start with nodemon (development)
 - `npm test` - Run tests
@@ -168,15 +184,18 @@ node api-test.js
 ## 🔧 Configuration
 
 ### Environment Variables
+
 Create `.env` files for configuration:
 
 **Backend** (optional):
+
 ```
 PORT=5000
 NODE_ENV=development
 ```
 
 **Frontend** (for production backend):
+
 ```
 REACT_APP_API_BASE=https://your-backend-url.com
 ```
@@ -210,6 +229,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📱 Demo Features
 
 The live demo includes:
+
 - ✅ All CRUD operations working
 - ✅ Drag and drop functionality
 - ✅ Data persistence via localStorage

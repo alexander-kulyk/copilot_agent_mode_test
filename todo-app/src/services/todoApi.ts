@@ -1,4 +1,10 @@
-const API_BASE = 'http://localhost:5000';
+// Demo/Production API service for Todo App
+// Automatically detects environment and uses appropriate data source
+
+// Check if running on GitHub Pages or production build
+const isGitHubPages = window.location.hostname.includes('github.io');
+const isProductionBuild = process.env.NODE_ENV === 'production';
+const DEMO_MODE = isGitHubPages || isProductionBuild;
 
 export interface ApiTodo {
   id: string;
@@ -13,9 +19,60 @@ export class TodoApiError extends Error {
   }
 }
 
+// Helper function to generate UUID
+const generateId = (): string => {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
+// Demo data for initial load
+const DEMO_TODOS: ApiTodo[] = [
+  { id: '1', text: 'Welcome to the Todo App Demo! 🎉', completed: false },
+  { id: '2', text: 'This demo runs on GitHub Pages', completed: false },
+  { id: '3', text: 'Data is stored in browser localStorage', completed: true },
+  {
+    id: '4',
+    text: 'Try adding, editing, and deleting todos',
+    completed: false,
+  },
+  { id: '5', text: 'Drag and drop to reorder items', completed: false },
+];
+
+// localStorage helper functions
+const loadFromStorage = (): ApiTodo[] => {
+  try {
+    const stored = localStorage.getItem('demo-todos');
+    if (stored) {
+      return JSON.parse(stored);
+    }
+    // First time - save demo data
+    saveToStorage(DEMO_TODOS);
+    return DEMO_TODOS;
+  } catch {
+    return DEMO_TODOS;
+  }
+};
+
+const saveToStorage = (todos: ApiTodo[]): void => {
+  try {
+    localStorage.setItem('demo-todos', JSON.stringify(todos));
+  } catch (error) {
+    console.warn('Failed to save to localStorage:', error);
+  }
+};
+
+// Simulate network delay for realistic feel
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const todoApi = {
   // Get all todos
   async getTodos(): Promise<ApiTodo[]> {
+    if (DEMO_MODE) {
+      await sleep(300); // Simulate network delay
+      return loadFromStorage();
+    }
+
+    // Development API call (when backend is available)
+    const API_BASE = 'http://localhost:5000';
     try {
       const response = await fetch(`${API_BASE}/todos`);
       if (!response.ok) {
@@ -33,6 +90,21 @@ export const todoApi = {
 
   // Create new todo
   async createTodo(text: string): Promise<ApiTodo> {
+    if (DEMO_MODE) {
+      await sleep(200);
+      const todos = loadFromStorage();
+      const newTodo: ApiTodo = {
+        id: generateId(),
+        text,
+        completed: false,
+      };
+      const updatedTodos = [...todos, newTodo];
+      saveToStorage(updatedTodos);
+      return newTodo;
+    }
+
+    // Development API call
+    const API_BASE = 'http://localhost:5000';
     try {
       const response = await fetch(`${API_BASE}/todos`, {
         method: 'POST',
@@ -57,6 +129,25 @@ export const todoApi = {
 
   // Toggle completion status
   async toggleTodo(id: string): Promise<ApiTodo> {
+    if (DEMO_MODE) {
+      await sleep(200);
+      const todos = loadFromStorage();
+      const todoIndex = todos.findIndex((t) => t.id === id);
+      if (todoIndex === -1) {
+        throw new TodoApiError('Todo not found', 404);
+      }
+
+      const updatedTodo = {
+        ...todos[todoIndex],
+        completed: !todos[todoIndex].completed,
+      };
+      todos[todoIndex] = updatedTodo;
+      saveToStorage(todos);
+      return updatedTodo;
+    }
+
+    // Development API call
+    const API_BASE = 'http://localhost:5000';
     try {
       const response = await fetch(`${API_BASE}/todos/${id}/complete`, {
         method: 'PUT',
@@ -79,6 +170,16 @@ export const todoApi = {
 
   // Delete todo
   async deleteTodo(id: string): Promise<void> {
+    if (DEMO_MODE) {
+      await sleep(200);
+      const todos = loadFromStorage();
+      const filteredTodos = todos.filter((t) => t.id !== id);
+      saveToStorage(filteredTodos);
+      return;
+    }
+
+    // Development API call
+    const API_BASE = 'http://localhost:5000';
     try {
       const response = await fetch(`${API_BASE}/todos/${id}`, {
         method: 'DELETE',
@@ -102,6 +203,22 @@ export const todoApi = {
     id: string,
     updates: { text?: string; completed?: boolean }
   ): Promise<ApiTodo> {
+    if (DEMO_MODE) {
+      await sleep(200);
+      const todos = loadFromStorage();
+      const todoIndex = todos.findIndex((t) => t.id === id);
+      if (todoIndex === -1) {
+        throw new TodoApiError('Todo not found', 404);
+      }
+
+      const updatedTodo = { ...todos[todoIndex], ...updates };
+      todos[todoIndex] = updatedTodo;
+      saveToStorage(todos);
+      return updatedTodo;
+    }
+
+    // Development API call
+    const API_BASE = 'http://localhost:5000';
     try {
       const response = await fetch(`${API_BASE}/todos/${id}`, {
         method: 'PUT',
@@ -126,6 +243,11 @@ export const todoApi = {
 
   // Health check
   async healthCheck(): Promise<boolean> {
+    if (DEMO_MODE) {
+      return true;
+    }
+
+    const API_BASE = 'http://localhost:5000';
     try {
       const response = await fetch(`${API_BASE}/`);
       return response.ok;

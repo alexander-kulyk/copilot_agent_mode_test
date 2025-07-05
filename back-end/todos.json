@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "text": "Buy groceries",
+    "completed": true
+  },
+  {
+    "id": "2",
+    "text": "Read a book",
+    "completed": true
+  },
+  {
+    "id": "3",
+    "text": "Learn Node.js backend development",
+    "completed": false
+  },
+  {
+    "id": "d82844a6-10da-4178-a645-14e85e1a2f26",
+    "text": "Github copilot agent mode",
+    "completed": false
+  }
+]
